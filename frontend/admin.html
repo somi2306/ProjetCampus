@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.2.2/web3.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col items-center">
+
+    <nav class="bg-white shadow-sm border-b border-gray-200 w-full mb-8">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="student.html" class="text-xl font-bold text-blue-900 flex items-center gap-2 no-underline hover:text-blue-800">
+                🎓 Campus DApp
+            </a>
+            <div class="flex items-center gap-6 text-sm font-medium">
+                <a href="student.html" class="text-gray-600 hover:text-blue-600 transition flex items-center gap-1">
+                    Étudiant
+                </a>
+                <a href="explorer.html" class="text-gray-600 hover:text-blue-600 transition flex items-center gap-1">
+                    Explorateur
+                </a>
+                <a href="admin.html" class="text-red-700 font-bold bg-red-100 border border-red-300 px-3 py-1 rounded flex items-center gap-1">
+                    Admin / Tests
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl w-full px-6">
+        <div class="flex justify-between items-center mb-10">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">🛠️</span>
+                <h1 class="text-4xl font-bold text-blue-900">Dashboard Admin & Test</h1>
+            </div>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 mb-8 shadow-sm">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-blue-900">Connexion Admin</h2>
+                    
+                    <p id="accountDisplay" class="text-gray-500 font-mono mt-1 text-xs break-all">Non connecté</p>
+                    
+                    <p class="text-blue-900 font-bold mt-2">
+                        Solde : <span id="adminBalanceDisplay">0</span> CAMP
+                    </p>
+                </div>
+                
+                <button id="connectBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow transition">
+                    Connecter Admin
+                </button>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Monitoring des Caisses</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div class="bg-white p-6 rounded-lg border-l-4 border-green-500 shadow-md">
+                <div class="flex justify-between items-start">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-800">🍔 Cantine</h3>
+                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Service 0</span>
+                </div>
+                <p class="text-gray-500 text-xs mb-4 break-all" id="addrCantine">...</p>
+                <div class="text-3xl font-bold text-green-600">
+                    <span id="balCantine">0</span> <span class="text-sm text-gray-500">CAMP</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border-l-4 border-purple-500 shadow-md">
+                 <div class="flex justify-between items-start">
+                    <h3 class="text-2xl font-bold mb-2 text-gray-800">👔 Pressing</h3>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Service 1</span>
+                </div>
+                <p class="text-gray-500 text-xs mb-4 break-all" id="addrPressing">...</p>
+                <div class="text-3xl font-bold text-purple-600">
+                    <span id="balPressing">0</span> <span class="text-sm text-gray-500">CAMP</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Distributeur de Tokens</h2>
+        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-md mb-8">
+            
+            <div class="mb-8 border-b pb-8 border-gray-100">
+                
+                <p class="text-sm text-gray-500 mb-4">Envoyez des CAMP à un compte étudiant pour tester s'il n'a plus d'argent</p>
+                
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input type="text" id="faucetAddress" placeholder="Adresse du destinataire (ex: 0x...)" 
+                           class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                    <input type="number" id="faucetAmount" placeholder="Montant (CAMP)" value="100"
+                           class="w-32 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                    <button id="sendTokensBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded shadow">
+                        Envoyer
+                    </button>
+                </div>
+            </div>
+
+            <button id="refreshBtn" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 py-3 rounded font-bold shadow-inner flex justify-center items-center gap-2">
+                <span></span> Actualiser toutes les données
+            </button>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

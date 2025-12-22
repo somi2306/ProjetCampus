@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  ganache:
+    image: trufflesuite/ganache:latest
+    container_name: ganache
+    command: >
+      --host 0.0.0.0
+      --port 8545
+      --networkId 1337
+      --mnemonic "test test test test test test test test test test test junk"
+      --accounts 10
+      --defaultBalanceEther 1000
+      --chain.chainId 1337
+    ports:
+      - "8545:8545"
+    volumes:
+      - ganache_data:/data
+    restart: unless-stopped
+
+  remix:
+    image: remixproject/remix-ide:latest
+    container_name: remix
+    ports:
+      - "8080:80"
+    volumes:
+      - ./contracts:/remix_workspace 
+    restart: unless-stopped
+
+volumes:
+  ganache_data:

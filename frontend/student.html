@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Payment - Étudiant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <nav class="bg-white shadow-sm border-b border-gray-200 w-full mb-8">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="student.html" class="text-xl font-bold text-blue-900 flex items-center gap-2 no-underline hover:text-blue-800">
+                🎓 Campus DApp
+            </a>
+            <div class="flex items-center gap-6 text-sm font-medium">
+                <a href="student.html" class="text-blue-600 font-bold border-b-2 border-blue-600 pb-1 flex items-center gap-1">
+                    Étudiant
+                </a>
+                <a href="explorer.html" class="text-gray-600 hover:text-blue-600 transition flex items-center gap-1">
+                    Explorateur
+                </a>
+                <a href="admin.html" class="text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-3 py-1 rounded transition flex items-center gap-1">
+                    Admin / Tests
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto mt-4 p-6">
+        
+        <h1 class="text-4xl font-extrabold text-center text-blue-900 mb-8">
+            💸 Campus Pay
+        </h1>
+
+        <div class="text-center mb-6">
+            <button id="connectBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                Se connecter avec MetaMask
+            </button>
+        </div>
+
+        <div id="walletInfo" class="hidden bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded shadow-md mb-8" role="alert">
+            <p class="font-bold">Portefeuille Connecté</p>
+            <p>Compte : <span id="accountDisplay" class="font-mono text-sm break-all"></span></p>
+            <p>Solde : <span id="balanceDisplay" class="font-bold text-lg">0</span> CAMP</p>
+        </div>
+
+        <h3 class="text-2xl font-semibold mb-6 text-gray-700 border-b pb-2">Services Disponibles</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h5 class="text-xl font-bold text-gray-900">🍔 Cantine</h5>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Repas</span>
+                </div>
+                <p class="text-gray-600 mb-4">Menu étudiant complet.</p>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Prix (CAMP)</label>
+                    <input type="number" id="amountCantine" value="10" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight bg-gray-100" readonly>
+                </div>
+                <button onclick="approveAndPay(0, 10)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-200 flex justify-center items-center">
+                    Payer 10 CAMP
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h5 class="text-xl font-bold text-gray-900">👔 Pressing</h5>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Service</span>
+                </div>
+                <p class="text-gray-600 mb-4">Lavage et repassage.</p>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Prix (CAMP)</label>
+                    <input type="number" id="amountPressing" value="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight bg-gray-100" readonly>
+                </div>
+                <button onclick="approveAndPay(1, 5)" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-200 flex justify-center items-center">
+                    Payer 5 CAMP
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script src="student.js"></script>
+</body>
+</html>
