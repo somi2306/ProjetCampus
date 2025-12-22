@@ -1,0 +1,19 @@
+# Fichiers compilés
+__pycache__/
+*.pyc
+
+# venv
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Le fichier de configuration généré automatiquement par deploy.py
+frontend/conf.json
+
+# Données persistantes de Ganache (avec  Docker)
+ganache_data/
