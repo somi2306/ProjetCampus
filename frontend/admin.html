@@ -87,8 +87,9 @@
                 <p class="text-sm text-gray-500 mb-4">Envoyez des CAMP à un compte étudiant pour tester s'il n'a plus d'argent</p>
                 
                 <div class="flex flex-col md:flex-row gap-4">
-                    <input type="text" id="faucetAddress" placeholder="Adresse du destinataire (ex: 0x...)" 
-                           class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                    <select id="faucetAddress" class="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+    <option value="" disabled selected>Chargement des comptes Ganache...</option>
+</select>
                     <input type="number" id="faucetAmount" placeholder="Montant (CAMP)" value="100"
                            class="w-32 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none">
                     <button id="sendTokensBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded shadow">

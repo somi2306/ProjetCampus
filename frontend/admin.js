@@ -76,6 +76,58 @@ async function sendTokens() {
     }
 }
 
+async function loadGanacheAccounts() {
+    try {
+        // 1. Connexion directe au nœud HTTP (Bypass MetaMask pour la lecture)
+        const localProvider = new Web3.providers.HttpProvider("http://localhost:7545");
+        const localWeb3 = new Web3(localProvider);
+
+        // 2. Récupérer les comptes du nœud
+        const accounts = await localWeb3.eth.getAccounts();
+        
+        // 3. Remplir le menu déroulant
+        const select = document.getElementById("faucetAddress");
+        select.innerHTML = '<option value="" disabled selected>Choisir un compte étudiant...</option>';
+
+        // --- MODIFICATION ICI ---
+        // On crée une sous-liste qui commence à l'index 3
+        // Index 0 = Admin, Index 1 = Cantine, Index 2 = Pressing
+        // Donc on garde seulement de l'index 3 à la fin pour les étudiants
+        const studentAccounts = accounts.slice(3); 
+
+        for (let acc of studentAccounts) {
+            // On récupère le solde ETH pour info
+            const balanceWei = await localWeb3.eth.getBalance(acc);
+            const balanceEth = localWeb3.utils.fromWei(balanceWei, 'ether');
+
+            const option = document.createElement("option");
+            option.value = acc;
+            // Affiche : "0x123... (99.9 ETH)"
+            option.text = `${acc} (${parseFloat(balanceEth).toFixed(2)} ETH)`;
+            select.appendChild(option);
+        }
+        console.log("✅ Mode Expert : Comptes étudiants chargés (Admin/Services masqués)");
+
+    } catch (error) {
+        console.error("Erreur connexion Ganache (Mode Expert désactivé):", error);
+        // Fallback : Si ça échoue, on remet l'input texte
+        const select = document.getElementById("faucetAddress");
+        if(select.tagName === 'SELECT') {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = "faucetAddress";
+            input.placeholder = "Adresse manuelle (Erreur connexion Ganache)";
+            input.className = select.className;
+            select.replaceWith(input);
+        }
+    }
+}
+
+// Lancer le chargement dès l'ouverture de la page
+window.addEventListener('load', async () => {
+    await loadGanacheAccounts();
+});
+
 // Événements
 document.getElementById('connectBtn').addEventListener('click', connectWallet);
 document.getElementById('refreshBtn').addEventListener('click', updateBalances);
