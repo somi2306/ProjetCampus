@@ -8,7 +8,7 @@ services:
       --host 0.0.0.0
       --port 7545
       --networkId 1337
-      --mnemonic "test test test test test test test test test test test junk"
+      --mnemonic "judge pitch chimney guide effort ripple tired potato ivory goose boil man"
       --accounts 10
       --defaultBalanceEther 1000
       --chain.chainId 1337
