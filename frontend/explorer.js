@@ -1,4 +1,9 @@
 let web3, conf, paymentContract;
+/*
+web3 → bibliothèque pour parler avec Ethereum
+conf → contient ABI + adresses (chargées depuis conf.json)
+paymentContract → instance JS du smart contract CampusPayment
+*/
 
 async function init() {
     if (window.ethereum) {
@@ -10,12 +15,12 @@ async function init() {
         }
     } else {
         web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
-    }
+    } //connecte le navigateur à Ethereum
 
     const resp = await fetch('conf.json');
-    conf = await resp.json();
+    conf = await resp.json(); //charge la config
 
-    paymentContract = new web3.eth.Contract(conf.paymentABI, conf.paymentAddress);
+    paymentContract = new web3.eth.Contract(conf.paymentABI, conf.paymentAddress);//instance JS du smart contract CampusPayment
 
     loadEvents();
 }
@@ -29,7 +34,7 @@ async function loadEvents() {
             fromBlock: 0,
             toBlock: 'latest'
         });
-
+//getPastEvents() fait une lecture de la blockchain locale (Ganache), Il récupère les logs déjà minés Il décode les logs avec l’ABI pour te donner student, service, amount, timestamp
         events.reverse();
         tableBody.innerHTML = '';
 
@@ -39,10 +44,10 @@ async function loadEvents() {
         }
 
         for (let event of events) {
-            const data = event.returnValues;
+            const data = event.returnValues;//données de l’event
             const dateObj = new Date(Number(data.timestamp) * 1000);
             const dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString();
-            const amountEth = web3.utils.fromWei(data.amount, 'ether');
+            const amountEth = web3.utils.fromWei(data.amount, 'ether'); //Conversion Wei → CAMP
 
             let serviceBadge = `<span class="px-2 py-1 rounded text-xs font-bold bg-gray-200 text-gray-700">${data.service}</span>`;
             if(data.service === "Cantine") serviceBadge = `<span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-800">🍔 Cantine</span>`;

@@ -17,7 +17,7 @@ async function connectWallet() {
         accounts = await web3.eth.getAccounts();
         
         await init();
-        tokenContract = new web3.eth.Contract(conf.tokenABI, conf.tokenAddress);
+        tokenContract = new web3.eth.Contract(conf.tokenABI, conf.tokenAddress);//tokenContract
 
         document.getElementById('accountDisplay').innerText = "Connecté : " + accounts[0];
         document.getElementById('connectBtn').style.display = 'none';
@@ -44,7 +44,7 @@ async function updateBalances() {
         // 3. Solde de l'Admin connecté
         if (accounts && accounts[0]) {
             const adminBal = await tokenContract.methods.balanceOf(accounts[0]).call();
-            document.getElementById('adminBalanceDisplay').innerText = web3.utils.fromWei(adminBal, 'ether');
+            document.getElementById('adminBalanceDisplay').innerText = web3.utils.fromWei(adminBal, 'ether'); //Convertit depuis Wei → Ether (18 décimales) pour lisibilité
         }
 
     } catch (e) {
@@ -106,7 +106,7 @@ async function loadGanacheAccounts() {
             option.text = `${acc} (${parseFloat(balanceEth).toFixed(2)} ETH)`;
             select.appendChild(option);
         }
-        console.log("✅ Mode Expert : Comptes étudiants chargés (Admin/Services masqués)");
+        console.log("Comptes étudiants chargés (Admin/Services masqués)");
 
     } catch (error) {
         console.error("Erreur connexion Ganache (Mode Expert désactivé):", error);

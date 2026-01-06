@@ -11,7 +11,7 @@ interface IERC20 {
 /// @notice Permet de régler des services (Cantine, Pressing) en tokens CAMP
 contract CampusPayment {
     IERC20 public token;
-    address public owner;
+    address public owner;//l’administrateur
 
     // Structure définissant un service du campus
     struct Service {
@@ -29,8 +29,8 @@ contract CampusPayment {
     /// @notice Déploiement du contrat
     /// @param _tokenAddress L'adresse du contrat CampusToken précédemment déployé
     constructor(address _tokenAddress) {
-        token = IERC20(_tokenAddress);
-        owner = msg.sender;
+        token = IERC20(_tokenAddress);// Initialisation du token CAMP 
+        owner = msg.sender;//l’administrateur
 
         // Les adresses GANACHE (À configurer)
         services.push(Service("Cantine", 0x2EB6663cF256B5Da2e6479241653dc1c138A3c80, 10));
@@ -40,15 +40,16 @@ contract CampusPayment {
     function getServicesCount() public view returns (uint) {
         return services.length;
     }
+    //Permet au frontend de connaître la taille du tableau
 
     /// @notice Effectue le paiement d'un service
     /// @dev Nécessite une approbation (approve) préalable sur le contrat Token
     /// @param _serviceId L'index du service dans le tableau
     /// @param _amount Le montant à payer
     function payService(uint _serviceId, uint256 _amount) public {
-        require(_serviceId < services.length, "Service inconnu");
+        require(_serviceId < services.length, "Service inconnu"); //Empêche un accès hors tableau
         
-        Service memory srv = services[_serviceId];
+        Service memory srv = services[_serviceId]; // Récupération des infos du service en mémoire
 
         // Exécution du transfert : Étudiant -> Service
         // On multiplie par 10^18 pour gérer les décimales du token
@@ -56,6 +57,19 @@ contract CampusPayment {
         require(success, "Paiement echoue (Verifiez l'approve)");
 
         // Enregistrement de la transaction sur la Blockchain
-        emit PaymentMade(msg.sender, srv.name, _amount, block.timestamp);
+        // On émet le montant réel transféré (avec les zéros)
+emit PaymentMade(msg.sender, srv.name, _amount * 10**18, block.timestamp);
+//0xA → 0xB : 10 CAMP avec transfertFrom mais avec PaymentMade : Donne le sens fonctionnel du transfert
+
     }
 }
+
+// Exemple conceptuel de ce qui est enregistré dans la blockchain :
+// Bloc #123
+//  └─ Transaction #5
+//      ├─ Transfer (ERC20)
+//      └─ PaymentMade
+//          ├─ student = Alice
+//          ├─ service = Cantine
+//          ├─ amount = 10 CAMP
+//          └─ timestamp = 1690000000

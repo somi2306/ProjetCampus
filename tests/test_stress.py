@@ -22,6 +22,7 @@ except FileNotFoundError:
 # 3. Initialisation des Contrats
 payment_contract = w3.eth.contract(address=conf["paymentAddress"], abi=conf["paymentABI"])
 token_contract = w3.eth.contract(address=conf["tokenAddress"], abi=conf["tokenABI"])
+# objets Python Web3 pour interagir avec les contrats
 
 # 4. Préparation des Acteurs
 admin = w3.eth.accounts[0]  # Celui qui paie
@@ -34,6 +35,7 @@ tx_approve = token_contract.functions.approve(
     conf["paymentAddress"], 
     w3.to_wei(1000000, 'ether')  # Montant élevé pour éviter les soucis
 ).transact({'from': admin})
+#On autorise le contrat de paiement à dépenser jusqu’à 1 000 000 CAMP du compte admin.
 w3.eth.wait_for_transaction_receipt(tx_approve)
 print("Approbation validée sur la Blockchain.")
 
@@ -63,7 +65,7 @@ print("2. Lancement de 50 transactions en parallèle...")
 start_time = time.time()
 
 with ThreadPoolExecutor(max_workers=10) as executor:
-    results = list(executor.map(send_payment, range(50)))
+    results = list(executor.map(send_payment, range(50))) # 50 paiements simultanés : Cela simule un trafic intense sur la blockchain locale.
 
 end_time = time.time()
 duration = end_time - start_time

@@ -1,7 +1,7 @@
 let web3;
 let accounts;
-let tokenContract;
-let paymentContract;
+let tokenContract; //instance du smart contract CampusToken
+let paymentContract; //instance du smart contract CampusPayment
 let conf;
 async function loadConfig() {
     const response = await fetch('conf.json');
@@ -22,7 +22,7 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
             // 2. Initialisation des contrats
             tokenContract = new web3.eth.Contract(conf.tokenABI, conf.tokenAddress);
             paymentContract = new web3.eth.Contract(conf.paymentABI, conf.paymentAddress);
-            
+            //Grâce à l’ABI, le frontend sait comment appeler les fonctions (transfer, approve, payService
             // 3. Mise à jour de l'interface 
             document.getElementById('connectBtn').style.display = 'none';
             
@@ -46,6 +46,7 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
 async function updateBalance() {
     try {
         const bal = await tokenContract.methods.balanceOf(accounts[0]).call();
+        //call() → lecture seulement, pas de transaction
         // Conversion Wei -> Ether (Token)
         document.getElementById('balanceDisplay').innerText = web3.utils.fromWei(bal, 'ether');
     } catch (error) {
@@ -64,8 +65,8 @@ async function approveAndPay(serviceId, amount) {
     try {
         // 1. APPROVE : Autoriser le contrat de paiement à prendre les tokens
         console.log("Approbation en cours...");
-        await tokenContract.methods.approve(conf.paymentAddress, amountWei)
-            .send({ from: accounts[0] });
+        await tokenContract.methods.approve(conf.paymentAddress, amountWei) //Autorise le contrat de paiement à dépenser le montant sur ton compte
+            .send({ from: accounts[0] }); //envoie une transaction à la blockchain avec clé privé de meta mask
         console.log("Approuvé !");
         
         // 2. PAY : Exécuter le paiement
